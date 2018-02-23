@@ -7,6 +7,9 @@
 threads_count = ENV.fetch("RAILS_MAX_THREADS") { 5 }
 threads threads_count, threads_count
 
+workers     ENV.fetch("WEB_CONCURRENCY") { 2 }
+preload_app!
+
 # Specifies the `port` that Puma will listen on to receive requests; default is 3000.
 #
 port        ENV.fetch("PORT") { 3000 }
@@ -47,10 +50,10 @@ environment ENV.fetch("RAILS_ENV") { "development" }
 # or connections that may have been created at application boot, as Ruby
 # cannot share connections between processes.
 #
-# on_worker_boot do
-#   ActiveRecord::Base.establish_connection if defined?(ActiveRecord)
-# end
-#
+on_worker_boot do
+  ActiveRecord::Base.establish_connection
+end
+
 
 # Allow puma to be restarted by `rails restart` command.
 plugin :tmp_restart
