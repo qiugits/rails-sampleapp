@@ -9,5 +9,9 @@ class ActiveSupport::TestCase
   # app/helpers/application_helper.rbで定義したものを使えるようにする
   include ApplicationHelper
 
+  def is_logged_in?
+    !session[:user_id].nil?
+  end
+
   # Add more helper methods to be used by all tests here...
 end
