@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   # Only when :edit, :update, Execute :logged_in_user, which require user to be logged in.
   before_action :logged_in_user, only: [:edit, :update]
+  before_action :correct_user, only: [:edit, :update]
   
   def show
     @user = User.find(params[:id])
@@ -45,6 +46,14 @@ class UsersController < ApplicationController
       unless logged_in?
         flash[:danger] = 'Please log in.'
         redirect_to login_url
+      end
+    end
+
+    def correct_user
+      @user = User.find(params[:id])
+      unless current_user?(@user)
+        flash[:danger] = 'Action not permitted'
+        redirect_to root_url
       end
     end
 end
