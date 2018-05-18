@@ -8,6 +8,8 @@ Rails.application.routes.draw do
   get '/signup', to: 'users#new'
   post '/signup', to: 'users#create'
   resources :users
+  # Micropost
+  resources :microposts, only: [:create, :destroy]
   # Account Activations
   resources :account_activations, only: [:edit]
   # Password Resets
