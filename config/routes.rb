@@ -7,7 +7,13 @@ Rails.application.routes.draw do
   # Users
   get '/signup', to: 'users#new'
   post '/signup', to: 'users#create'
-  resources :users
+  resources :users do
+    member do
+      get :following, :followers
+    end
+  end
+  # Relationships
+  resources :relationships, only: [:create, :destroy]
   # Micropost
   resources :microposts, only: [:create, :destroy]
   # Account Activations
